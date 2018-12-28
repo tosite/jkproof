@@ -1,0 +1,10 @@
+word1:
+  correct : お問い合わせ
+  wrongs  :
+    word1: 問い合わせ
+    word2: お問合せ
+    word3: 問合せ
+word2:
+  correct : Web
+  wrongs  :
+    word1: WEB
