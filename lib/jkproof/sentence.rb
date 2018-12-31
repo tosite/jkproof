@@ -2,12 +2,16 @@ module Jkproof
   class Sentence
     require 'yaml'
     require 'uri'
+    require 'dotenv'
     require 'net/https'
     require 'active_support'
     require 'active_support/core_ext'
 
-    def initialize(buf, yml_path)
-      @dictionary_words = YAML.load_file(yml_path)
+    def initialize(buf)
+      Dotenv.load
+      yml_path          = ENV["DICTIONARY_YML_PATH"]
+      @yahoo_api_key    = ENV["YAHOO_API_KEY"]
+      @dictionary_words = (yml_path.blank?) ? [] : YAML.load_file(yml_path)
       @yahoo_words      = []
       @buf              = buf
       fetch_yahoo_lint_words
@@ -36,13 +40,16 @@ module Jkproof
     private
 
     def fetch_yahoo_lint_words
+      if @yahoo_api_key.blank? || @yahoo_api_key.size < 10
+        raise "There is no Yahoo API Key.Please set API Key in 'jkproof/.env'.(ref: https://e.developer.yahoo.co.jp/dashboard/)"
+      end
       # ref: http://developer.yahoo.co.jp/webapi/jlp/kousei/v1/kousei.html
       uri          = URI.parse('https://jlp.yahooapis.jp/KouseiService/V1/kousei')
       http         = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
       reqest       = Net::HTTP::Post.new(uri.path)
       reqest.set_form_data(
-        appid: 'YAHOO_API_KEY',
+        appid: @yahoo_api_key,
         sentence: @buf,
         no_filter: '11'
         # no_filter: "11,12,14,15"

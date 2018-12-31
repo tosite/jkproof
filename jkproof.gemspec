@@ -7,9 +7,7 @@ Gem::Specification.new do |spec|
   spec.version       = Jkproof::VERSION
   spec.authors       = ['tosite']
   spec.email         = ['tl091264@gmail.com']
-
-  spec.summary       = 'test.'
-  spec.description   = 'test.'
+  spec.description   = 'This performs sentence proofreading using a dictionary.yml.'
   spec.homepage      = 'https://github.com/tosite0345/jkproof'
 
   # spec.summary       = %q{TODO: Write a short summary, because RubyGems requires one.}
@@ -41,7 +39,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '~> 1.17'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
-  # spec.add_runtime_dependency 'active_support'
-  spec.add_development_dependency 'activesupport'
-  spec.add_development_dependency 'xml-simple'
+  spec.add_dependency 'activesupport'
+  spec.add_dependency 'xml-simple'
+  spec.add_dependency 'dotenv'
+  spec.add_dependency 'highline'
 end
