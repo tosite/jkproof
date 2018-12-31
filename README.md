@@ -1,3 +1,5 @@
+<img src="https://github.com/tosite0345/jkproof/blob/master/docs/logo.png" style="width: 100% !important;">
+
 # [Jkproof](https://rubygems.org/gems/jkproof)
 
 **Author:[@mao_sum](https://twitter.com/mao_sum)**
