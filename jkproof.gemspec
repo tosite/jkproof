@@ -7,6 +7,7 @@ Gem::Specification.new do |spec|
   spec.version       = Jkproof::VERSION
   spec.authors       = ['tosite']
   spec.email         = ['tl091264@gmail.com']
+  spec.summary       = 'This performs sentence proofreading using a dictionary.yml.'
   spec.description   = 'This performs sentence proofreading using a dictionary.yml.'
   spec.homepage      = 'https://github.com/tosite0345/jkproof'
 
