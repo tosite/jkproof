@@ -56,6 +56,19 @@ wrongs  :
   word3 : wrong-word-1
 ```
 
+### Yahoo! APIキーを追加する
+
+**jkproof/lib/jkproof/sentence.rb**
+
+```ruby
+      reqest.set_form_data(
+        appid: 'YAHOO_API_KEY', # ここを書き換える
+        　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　# ref : http://developer.yahoo.co.jp/webapi/jlp/kousei/v1/kousei.html
+        sentence: @buf,
+        no_filter: '11'
+      )
+```
+
 ## Usage
 
 ```ruby
@@ -76,4 +89,4 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/jkproof.
+Bug reports and pull requests are welcome on GitHub at https://github.com/tosite0345/jkproof.
