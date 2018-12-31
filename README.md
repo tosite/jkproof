@@ -1,8 +1,9 @@
 # [Jkproof](https://rubygems.org/gems/jkproof)
 
+**Author:[@mao_sum](https://twitter.com/mao_sum)**
+
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/jkproof`. To experiment with that code, run `bin/console` for an interactive prompt.
 
-TODO: Delete this and the text above, and describe your gem
 
 ## Installation
 
@@ -56,28 +57,26 @@ wrongs  :
   word3 : wrong-word-1
 ```
 
-### Yahoo! APIキーを追加する
+### Yahoo APIキーを生成する
+https://e.developer.yahoo.co.jp/dashboard/ からAPIキーを生成してください。
 
-**jkproof/lib/jkproof/sentence.rb**
+`Client ID` を使用します。
 
-```ruby
-      reqest.set_form_data(
-        appid: 'YAHOO_API_KEY', # ここを書き換える
-        　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　# ref : http://developer.yahoo.co.jp/webapi/jlp/kousei/v1/kousei.html
-        sentence: @buf,
-        no_filter: '11'
-      )
-```
+### .envファイルを修正する
+
+`jkproof/.env.sample` をコピーして編集してください。
+
+先に作成した辞書ファイルのパスを `DICTIONARY_YML_PATH` に、Yahoo APIキーを `YAHPP_API_KEY` にそれぞれ登録してください。
 
 ## Usage
 
 ```ruby
 # 検出された場合
-Jkproof.detect_words_has_error("検知したい文章", "config/dictionary.yml")
+Jkproof.detect_words_has_error("検知したい文章")
 # => [{ wrong: WrongWord, correct:CorrectWord }]
 
 # 検出されなかった場合
-Jkproof.detect_words_has_error("", "config/dictionary.yml")
+Jkproof.detect_words_has_error("")
 # => []
 ```
 
