@@ -66,7 +66,14 @@ https://e.developer.yahoo.co.jp/dashboard/ からAPIキーを生成してくだ�
 
 ### .envファイルを修正する
 
-`jkproof/.env.sample` をコピーして編集してください。
+`jkproof/.env.sample` をコピーして編集、もしくは既存の `.env` ファイルに追記してください。
+
+**追記する場合**
+
+```
+YAHOO_API_KEY=""
+DICTIONARY_YML_PATH=""
+```
 
 先に作成した辞書ファイルのパスを `DICTIONARY_YML_PATH` に、Yahoo APIキーを `YAHPP_API_KEY` にそれぞれ登録してください。
 
