@@ -29,34 +29,36 @@ Or install it yourself as:
 
 **config/dictionary.yml**  
 ```yml
-word1:
+-
   correct : correct_word_1
   wrongs  :
-    word1 : wrong-word-1
-    word2 : WrongWord1
-word2:
+    - wrong-word-1
+    - WrongWord1
+-
   correct : CorrectWord2
   wrongs  :
-    word1 : wrong_word_2
-    word1 : wrongword2
+    - wrong_word_2
+    - wrongword2
 ```
 
 一つの単号に対して、誤りのある単語を複数追加できます。
 
 必ず文字数が多いものから降順になるように並べてください。
 
+
 ```yml
 # いい例
 wrongs  :
-  word1 : wrong-word-1
-  word2 : WrongWord1
-  word3 : Wrong1
+  - wrong-word-1
+  - WrongWord1
+  - Word1
 
 # 悪い例
 wrongs  :
-  word1 : Wrong1
-  word2 : WrongWord1
-  word3 : wrong-word-1
+  - Word1
+  - WrongWord1
+  - wrong-word-1
+# 悪い例では文章に "WrongWord1" が与えられた場合、 "Word1" を返してしまう
 ```
 
 ### Yahoo APIキーを生成する
@@ -73,9 +75,13 @@ https://e.developer.yahoo.co.jp/dashboard/ からAPIキーを生成してくだ�
 ```
 YAHOO_API_KEY=""
 DICTIONARY_YML_PATH=""
+NO_FILTER=""
 ```
 
-先に作成した辞書ファイルのパスを `DICTIONARY_YML_PATH` に、Yahoo APIキーを `YAHPP_API_KEY` にそれぞれ登録してください。
+先に作成した辞書ファイルのパスを `DICTIONARY_YML_PATH` に、Yahoo APIキーを `YAHPP_API_KEY` にそれぞれ登録してください。  
+`NO_FILTER` を設定することで検出する精度を調整することができます。  
+設定値については [こちら](https://developer.yahoo.co.jp/webapi/jlp/kousei/v1/kousei.html) のno_filterをご覧ください。  
+なお、複数の除外項目を設定する場合は `NO_FILTER="11,12,13"` のようにカンマ区切りの文字列で指定するようお願いいたします。
 
 ## Usage
 
