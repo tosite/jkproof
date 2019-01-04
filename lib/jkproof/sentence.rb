@@ -13,7 +13,7 @@ module Jkproof
       Dotenv.load
       yml_path       = ENV['DICTIONARY_YML_PATH']
       @yahoo_api_key = ENV['YAHOO_API_KEY']
-      @no_filter     = ENV['NO_FILTER'].blank? ? '11' : ENV['NO_FILTER']
+      @no_filter     = ENV['NO_FILTER'].blank? ? '' : ENV['NO_FILTER']
 
       begin
         @dictionary_words = yml_path.blank? ? [] : YAML.load_file(yml_path)

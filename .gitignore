@@ -8,6 +8,7 @@
 /tmp/
 /vendor
 .env
+.ruby-version
 
 # rspec failure tracking
 .rspec_status
