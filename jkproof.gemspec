@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'jkproof/version'
@@ -17,7 +19,7 @@ Gem::Specification.new do |spec|
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
   if spec.respond_to?(:metadata)
-    spec.metadata['allowed_push_host'] = "https://rubygems.org"
+    spec.metadata['allowed_push_host'] = 'https://rubygems.org'
 
     # spec.metadata["homepage_uri"] = spec.homepage
     spec.metadata['homepage_uri']    = 'https://github.com/tosite0345/jkproof'
@@ -41,7 +43,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_dependency 'activesupport'
-  spec.add_dependency 'xml-simple'
   spec.add_dependency 'dotenv'
   spec.add_dependency 'highline'
+  spec.add_dependency 'xml-simple'
 end

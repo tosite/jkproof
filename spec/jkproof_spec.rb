@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Jkproof do
   it 'バージョンを持っている' do
     expect(Jkproof::VERSION).not_to be nil
@@ -24,7 +26,7 @@ RSpec.describe Jkproof do
 
   it 'どちらも合致する場合' do
     expect = [
-      { wrong: 'お問合せ', correct: 'お問い合わせ' },
+      { correct: 'お問い合わせ', wrong: 'お問合せ' },
       { correct: 'ください', wrong: '下さい' },
       { correct: 'いたします', wrong: '致します' }
     ]
@@ -54,6 +56,15 @@ RSpec.describe Jkproof do
   it '対象文字が空の場合' do
     expect = []
     buf    = ''
+    actual = Jkproof.detect_words_has_error(buf)
+    expect(actual).to eq expect
+  end
+
+  it '正しいワードよりも誤ったワードのほうが文字数が長い場合' do
+    expect = [
+      { wrong: '税抜き', correct: '税抜' }
+    ]
+    buf    = '税抜き表記は誤りです。税抜が正しい。'
     actual = Jkproof.detect_words_has_error(buf)
     expect(actual).to eq expect
   end
