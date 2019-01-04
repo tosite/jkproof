@@ -59,4 +59,13 @@ RSpec.describe Jkproof do
     actual = Jkproof.detect_words_has_error(buf)
     expect(actual).to eq expect
   end
+
+  it '正しいワードよりも誤ったワードのほうが文字数が長い場合' do
+    expect = [
+      { wrong: '税抜き', correct: '税抜' }
+    ]
+    buf    = '税抜き表記は誤りです。税抜が正しい。'
+    actual = Jkproof.detect_words_has_error(buf)
+    expect(actual).to eq expect
+  end
 end

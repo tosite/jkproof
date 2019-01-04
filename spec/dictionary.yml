@@ -1,10 +1,14 @@
 -
-  correct : お問い合わせ
-  wrongs  :
+  correct: お問い合わせ
+  wrongs:
     - 問い合わせ
     - お問合せ
     - 問合せ
 -
-  correct : Web
-  wrongs  :
+  correct: Web
+  wrongs:
     - WEB
+-
+  correct: 税抜
+  wrongs:
+    - 税抜き

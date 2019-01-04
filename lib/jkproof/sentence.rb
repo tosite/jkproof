@@ -13,6 +13,8 @@ module Jkproof
       Dotenv.load
       yml_path       = ENV['DICTIONARY_YML_PATH']
       @yahoo_api_key = ENV['YAHOO_API_KEY']
+      @no_filter     = ENV['NO_FILTER'].blank? ? '11' : ENV['NO_FILTER']
+
       begin
         @dictionary_words = yml_path.blank? ? [] : YAML.load_file(yml_path)
       rescue StandardError => e
@@ -29,6 +31,15 @@ module Jkproof
 
       # 正しいワードを取り除く
       @dictionary_words.each do |word|
+        # 誤りのある単語の文字数 > 正しい単語の文字数の場合、先に検知する
+        wrongs = fetch_wrong_words_than_long_correct_word(word['correct'], word['wrongs'])
+        wrongs.each do |wrong|
+          if excluded_correct_word.include?(wrong)
+            wrong_words.push(correct: word['correct'], wrong: wrong)
+            excluded_correct_word = excluded_correct_word.gsub(wrong, '####')
+          end
+        end
+        # 正しいワードを取り除く
         excluded_correct_word = excluded_correct_word.gsub(word['correct'], '****')
       end
 
@@ -59,8 +70,7 @@ module Jkproof
       reqest.set_form_data(
         appid: @yahoo_api_key,
         sentence: @buf,
-        no_filter: '11'
-        # no_filter: "11,12,14,15"
+        no_filter: @no_filter
       )
       s = http.request(reqest).body
       unless Hash.from_xml(s)['ResultSet']['Result'].nil?
@@ -71,6 +81,13 @@ module Jkproof
           @yahoo_words.push(correct: r['ShitekiWord'], wrong: r['Surface'])
         end
       end
+    end
+
+    def fetch_wrong_words_than_long_correct_word(correct_word, wrong_words)
+      return_words = []
+      c_length     = correct_word.length
+      wrong_words.each { |wrong_word| return_words.push(wrong_word) if c_length < wrong_word.length }
+      return_words
     end
   end
 end
