@@ -12,7 +12,7 @@ module Jkproof
       yml_path       = ENV["DICTIONARY_YML_PATH"]
       @yahoo_api_key = ENV["YAHOO_API_KEY"]
       begin
-        @dictionary_words = (yml_path.blank?) ? [] : YAML.load_file(yml_path+"-")
+        @dictionary_words = (yml_path.blank?) ? [] : YAML.load_file(yml_path)
       rescue => e
         raise "#{e}(file_path: '#{yml_path}')"
       end
@@ -25,7 +25,9 @@ module Jkproof
       wrong_words = []
 
       # 正しいワードを取り除く
-      @dictionary_words.each do |_key, word|
+      @dictionary_words.each do |word|
+        puts word
+        puts '----'
         @buf.gsub!(word['correct'], '')
       end
 
