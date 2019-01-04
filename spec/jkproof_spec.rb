@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Jkproof do
   it 'バージョンを持っている' do
     expect(Jkproof::VERSION).not_to be nil
@@ -24,7 +26,7 @@ RSpec.describe Jkproof do
 
   it 'どちらも合致する場合' do
     expect = [
-      { wrong: 'お問合せ', correct: 'お問い合わせ' },
+      { correct: 'お問い合わせ', wrong: 'お問合せ' },
       { correct: 'ください', wrong: '下さい' },
       { correct: 'いたします', wrong: '致します' }
     ]

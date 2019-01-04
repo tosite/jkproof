@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Jkproof
   class Sentence
     require 'yaml'
@@ -9,11 +11,11 @@ module Jkproof
 
     def initialize(buf)
       Dotenv.load
-      yml_path       = ENV["DICTIONARY_YML_PATH"]
-      @yahoo_api_key = ENV["YAHOO_API_KEY"]
+      yml_path       = ENV['DICTIONARY_YML_PATH']
+      @yahoo_api_key = ENV['YAHOO_API_KEY']
       begin
-        @dictionary_words = (yml_path.blank?) ? [] : YAML.load_file(yml_path)
-      rescue => e
+        @dictionary_words = yml_path.blank? ? [] : YAML.load_file(yml_path)
+      rescue StandardError => e
         raise "#{e}(file_path: '#{yml_path}')"
       end
       @yahoo_words = []
@@ -22,19 +24,18 @@ module Jkproof
     end
 
     def fetch_wrong_words
-      wrong_words = []
+      wrong_words           = []
+      excluded_correct_word = @buf
 
       # 正しいワードを取り除く
       @dictionary_words.each do |word|
-        puts word
-        puts '----'
-        @buf.gsub!(word['correct'], '')
+        excluded_correct_word = excluded_correct_word.gsub(word['correct'], '****')
       end
 
-      @dictionary_words.each do |_key, word|
+      @dictionary_words.each do |word|
         correct_word = word['correct']
-        word['wrongs'].each do |_wkey, wrong|
-          if @buf.include?(wrong)
+        word['wrongs'].each do |wrong|
+          if excluded_correct_word.include?(wrong)
             wrong_words.push(wrong: wrong, correct: correct_word)
             break
           end
@@ -49,6 +50,7 @@ module Jkproof
       if @yahoo_api_key.blank? || @yahoo_api_key.size < 10
         raise "There is no Yahoo API Key.Please set API Key in 'jkproof/.env'.(ref: https://e.developer.yahoo.co.jp/dashboard/)"
       end
+
       # ref: http://developer.yahoo.co.jp/webapi/jlp/kousei/v1/kousei.html
       uri          = URI.parse('https://jlp.yahooapis.jp/KouseiService/V1/kousei')
       http         = Net::HTTP.new(uri.host, uri.port)
@@ -65,13 +67,10 @@ module Jkproof
         [Hash.from_xml(s)['ResultSet']['Result']].flatten.each do |r|
           next unless r['Surface']
           next unless r['ShitekiWord']
+
           @yahoo_words.push(correct: r['ShitekiWord'], wrong: r['Surface'])
         end
       end
-    end
-
-    def remove_correct_word(key, correct_word)
-      @buf.gsub!(correct_word, "[###{key}##]")
     end
   end
 end
