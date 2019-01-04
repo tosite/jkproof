@@ -9,11 +9,15 @@ module Jkproof
 
     def initialize(buf)
       Dotenv.load
-      yml_path          = ENV["DICTIONARY_YML_PATH"]
-      @yahoo_api_key    = ENV["YAHOO_API_KEY"]
-      @dictionary_words = (yml_path.blank?) ? [] : YAML.load_file(yml_path)
-      @yahoo_words      = []
-      @buf              = buf
+      yml_path       = ENV["DICTIONARY_YML_PATH"]
+      @yahoo_api_key = ENV["YAHOO_API_KEY"]
+      begin
+        @dictionary_words = (yml_path.blank?) ? [] : YAML.load_file(yml_path+"-")
+      rescue => e
+        raise "#{e}(file_path: '#{yml_path}')"
+      end
+      @yahoo_words = []
+      @buf         = buf
       fetch_yahoo_lint_words
     end
 
