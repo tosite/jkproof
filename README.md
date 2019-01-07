@@ -29,16 +29,16 @@ Or install it yourself as:
 
 **config/dictionary.yml**  
 ```yml
-word1:
+-
   correct : correct_word_1
   wrongs  :
-    word1 : wrong-word-1
-    word2 : WrongWord1
-word2:
+    - wrong-word-1
+    - WrongWord1
+-
   correct : CorrectWord2
   wrongs  :
-    word1 : wrong_word_2
-    word1 : wrongword2
+    - wrong_word_2
+    - wrongword2
 ```
 
 一つの単号に対して、誤りのある単語を複数追加できます。
@@ -48,15 +48,15 @@ word2:
 ```yml
 # いい例
 wrongs  :
-  word1 : wrong-word-1
-  word2 : WrongWord1
-  word3 : Wrong1
+  - wrong-word-1
+  - WrongWord1
+  - Wrong1
 
 # 悪い例
 wrongs  :
-  word1 : Wrong1
-  word2 : WrongWord1
-  word3 : wrong-word-1
+  - Wrong1
+  - WrongWord1
+  - wrong-word-1
 ```
 
 ### Yahoo APIキーを生成する
@@ -73,6 +73,7 @@ https://e.developer.yahoo.co.jp/dashboard/ からAPIキーを生成してくだ�
 ```
 YAHOO_API_KEY=""
 DICTIONARY_YML_PATH=""
+NO_FILTER=""
 ```
 
 先に作成した辞書ファイルのパスを `DICTIONARY_YML_PATH` に、Yahoo APIキーを `YAHPP_API_KEY` にそれぞれ登録してください。
@@ -82,7 +83,7 @@ DICTIONARY_YML_PATH=""
 ```ruby
 # 検出された場合
 Jkproof.detect_words_has_error("検知したい文章")
-# => [{ wrong: WrongWord, correct:CorrectWord }]
+# => [{ type: "local", wrong: WrongWord, correct:CorrectWord }]
 
 # 検出されなかった場合
 Jkproof.detect_words_has_error("")
