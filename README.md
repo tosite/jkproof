@@ -45,18 +45,20 @@ Or install it yourself as:
 
 必ず文字数が多いものから降順になるように並べてください。
 
+
 ```yml
 # いい例
 wrongs  :
   - wrong-word-1
   - WrongWord1
-  - Wrong1
+  - Word1
 
 # 悪い例
 wrongs  :
-  - Wrong1
+  - Word1
   - WrongWord1
   - wrong-word-1
+# 悪い例では文章に "WrongWord1" が与えられた場合、 "Word1" を返してしまう
 ```
 
 ### Yahoo APIキーを生成する
@@ -70,13 +72,20 @@ https://e.developer.yahoo.co.jp/dashboard/ からAPIキーを生成してくだ�
 
 **追記する場合**
 
+ref: https://github.com/tosite0345/jkproof/blob/master/.env.sample
+
 ```
 YAHOO_API_KEY=""
 DICTIONARY_YML_PATH=""
 NO_FILTER=""
 ```
 
-先に作成した辞書ファイルのパスを `DICTIONARY_YML_PATH` に、Yahoo APIキーを `YAHPP_API_KEY` にそれぞれ登録してください。
+先に作成した辞書ファイルのパスを `DICTIONARY_YML_PATH` に、Yahoo APIキーを `YAHOO_API_KEY` にそれぞれ登録してください。
+
+`NO_FILTER` を設定することで検出する精度を調整することができます。  
+設定値については [こちら](https://developer.yahoo.co.jp/webapi/jlp/kousei/v1/kousei.html) のno_filterをご覧ください。
+
+なお、複数の除外項目を設定する場合は `NO_FILTER="11,12,13"` のようにカンマ区切りの文字列で指定するようお願いいたします。
 
 ## Usage
 
