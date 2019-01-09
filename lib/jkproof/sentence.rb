@@ -31,7 +31,7 @@ module Jkproof
         wrongs = fetch_wrong_words_than_long_correct_word(word['correct'], word['wrongs'])
         wrongs.each do |wrong|
           if excluded_correct_word.include?(wrong)
-            wrong_words.push(correct: word['correct'], wrong: wrong)
+            wrong_words.push(type: 'local', correct: word['correct'], wrong: wrong)
             excluded_correct_word = excluded_correct_word.gsub(wrong, '####')
           end
         end
@@ -43,8 +43,8 @@ module Jkproof
         correct_word = word['correct']
         word['wrongs'].each do |wrong|
           if excluded_correct_word.include?(wrong)
-            wrong_words.push(wrong: wrong, correct: correct_word)
-            break
+            wrong_words.push(type: 'local', wrong: wrong, correct: correct_word)
+            excluded_correct_word = excluded_correct_word.gsub(wrong, '####')
           end
         end
       end
@@ -90,7 +90,7 @@ module Jkproof
           next unless r['Surface']
           next unless r['ShitekiWord']
 
-          @yahoo_words.push(correct: r['ShitekiWord'], wrong: r['Surface'])
+          @yahoo_words.push(type: 'Yahoo', correct: r['ShitekiWord'], wrong: r['Surface'])
         end
       end
     end

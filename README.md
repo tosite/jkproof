@@ -92,7 +92,7 @@ NO_FILTER=""
 ```ruby
 # 検出された場合
 Jkproof.detect_words_has_error("検知したい文章")
-# => [{ wrong: WrongWord, correct:CorrectWord }]
+# => [{ type: "local", wrong: WrongWord, correct:CorrectWord }]
 
 # 検出されなかった場合
 Jkproof.detect_words_has_error("")
