@@ -113,15 +113,40 @@ NO_FILTER=""
 ```ruby
 # 検出された場合
 Jkproof.detect_words_has_error("検知したい文章")
-# => [{ type: "yml", wrong: WrongWord, correct:CorrectWord }]
+# => [
+#   message: "",
+#   count:   1,
+#   type:    "yml",
+#   words:   { type: "local", wrong: WrongWord, correct:CorrectWord },
+# ]
 
 # 検出されなかった場合
 Jkproof.detect_words_has_error("")
-# => []
+# => [
+#   message: "",
+#   count:   0,
+#   type:    "yml",
+#   words:   [],
+# ]
 
 # JSONを渡す場合
 Jkproof.detect_words_has_error("検知したい文章", json_dictionary)
-# => [{ type: "json", wrong: WrongWord, correct:CorrectWord }]
+# => [
+#   message: "",
+#   count:   1,
+#   type:    "json",
+#   words:   { type: "local", wrong: WrongWord, correct:CorrectWord },
+# ]
+
+# エラーがあった場合
+#   -- 処理自体は継続し、Yahooもしくは辞書のうち検知できるほうのみ返す
+#   -- どちらも返せない場合は空の配列を返す
+# => [
+#   message: "x ERROR(s) : error reason.",
+#   count:   1,
+#   type:    "json",
+#   words:   { type: "yahoo", wrong: WrongWord, correct:CorrectWord },
+# ]
 ```
 
 ## Development

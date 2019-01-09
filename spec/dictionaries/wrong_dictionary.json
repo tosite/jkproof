@@ -1,0 +1,10 @@
+[
+  {
+    "hoge" : "correct-json-word-1",
+    "fuga" : [
+      "wrong_json_word_1",
+      "WrongJsonWord1",
+      [1, 2, 3]
+    ]
+  }
+]

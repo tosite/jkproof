@@ -1,5 +1,23 @@
 # ChangeLog
 
+## v1.2.3
+- 辞書ファイルが所定のフォーマットに沿っていなかった場合に処理を継続するよう修正
+- エラー理由・検出語数・辞書タイプを戻り値に追加した
+- `type` の `yml` と `json` を `local` に統一した
+
+
+```ruby
+response = {
+  message: "1 ERROR(s) : error reason.",
+  count:   2,
+  type:    "yml or json",
+  words:   [
+    { type: 'yahoo', correct: "correct1", wrong: "wrong1" },
+    { type: 'local', correct: "correct2", wrong: "wrong2" },
+  ],
+}
+```
+
 ## v1.2.2
 - JSON形式に対応した
   - `Jkproof.detect_words_has_error(sentence, json_dictionary)` のように第二引数にJSONデータを渡すことで対応可能

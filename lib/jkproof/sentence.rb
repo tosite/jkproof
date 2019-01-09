@@ -18,37 +18,55 @@ module Jkproof
 
       @yahoo_words = []
       @buf         = buf
-      fetch_yahoo_lint_words
     end
 
     def fetch_wrong_words
+      error_messages        = []
       wrong_words           = []
       excluded_correct_word = @buf
 
-      # 正しいワードを取り除く
-      @dictionary_words.each do |word|
-        # 誤りのある単語の文字数 > 正しい単語の文字数の場合、先に検知する
-        wrongs = fetch_wrong_words_than_long_correct_word(word['correct'], word['wrongs'])
-        wrongs.each do |wrong|
-          if excluded_correct_word.include?(wrong)
-            wrong_words.push(type: @type, correct: word['correct'], wrong: wrong)
-            excluded_correct_word = excluded_correct_word.gsub(wrong, '####')
-          end
-        end
-        # 正しいワードを取り除く
-        excluded_correct_word = excluded_correct_word.gsub(word['correct'], '****')
+      begin
+        fetch_yahoo_lint_words
+      rescue StandardError => e
+        error_messages.push "yahoo api. (#{e})"
       end
 
-      @dictionary_words.each do |word|
-        correct_word = word['correct']
-        word['wrongs'].each do |wrong|
-          if excluded_correct_word.include?(wrong)
-            wrong_words.push(type: @type, wrong: wrong, correct: correct_word)
-            excluded_correct_word = excluded_correct_word.gsub(wrong, '####')
+      # 正しいワードを取り除く
+      begin
+        @dictionary_words.each do |word|
+          # 誤りのある単語の文字数 > 正しい単語の文字数の場合、先に検知する
+          wrongs = fetch_wrong_words_than_long_correct_word(word['correct'], word['wrongs'])
+          wrongs.each do |wrong|
+            if excluded_correct_word.include?(wrong)
+              wrong_words.push(type: 'local', correct: word['correct'], wrong: wrong)
+              excluded_correct_word = excluded_correct_word.gsub(wrong, '####')
+            end
+          end
+          # 正しいワードを取り除く
+          excluded_correct_word = excluded_correct_word.gsub(word['correct'], '****')
+        end
+
+        @dictionary_words.each do |word|
+          correct_word = word['correct']
+          word['wrongs'].each do |wrong|
+            if excluded_correct_word.include?(wrong)
+              wrong_words.push(type: 'local', wrong: wrong, correct: correct_word)
+              excluded_correct_word = excluded_correct_word.gsub(wrong, '####')
+            end
           end
         end
+      rescue StandardError => e
+        error_messages.push "yml or json dictionary. (#{e})"
       end
-      wrong_words.concat(@yahoo_words).uniq
+
+      messages = error_messages.empty? ? '' : "#{error_messages.count} ERROR(s) : #{error_messages.join(', ')}"
+      words    = wrong_words.concat(@yahoo_words).uniq
+      {
+        message: messages,
+        count:   words.size,
+        type:    @type,
+        words:   words
+      }
     end
 
     private
@@ -64,8 +82,13 @@ module Jkproof
       # ローカルの辞書データを使う場合
       yml_path = ENV['DICTIONARY_YML_PATH']
       begin
-        @type = 'yml'
-        @dictionary_words = yml_path.blank? ? [] : YAML.load_file(yml_path)
+        if yml_path.blank?
+          @dictionary_words = []
+          @type = 'none'
+        else
+          @dictionary_words = YAML.load_file(yml_path)
+          @type = 'yml'
+        end
       rescue StandardError => e
         raise "#{e}(file_path: '#{yml_path}')"
       end
