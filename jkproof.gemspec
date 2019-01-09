@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
   ex2.use JSON) Jkproof.detect_words_has_error(sentence, json)
   EOF
   spec.homepage      = 'https://github.com/tosite0345/jkproof'
-  spec.license       = "MIT"
+  spec.license       = 'MIT'
 
   # spec.summary       = %q{TODO: Write a short summary, because RubyGems requires one.}
   # spec.description   = %q{TODO: Write a longer description or delete this line.}

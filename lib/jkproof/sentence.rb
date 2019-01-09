@@ -64,7 +64,7 @@ module Jkproof
       # ローカルの辞書データを使う場合
       yml_path = ENV['DICTIONARY_YML_PATH']
       begin
-        @type ='yml'
+        @type = 'yml'
         @dictionary_words = yml_path.blank? ? [] : YAML.load_file(yml_path)
       rescue StandardError => e
         raise "#{e}(file_path: '#{yml_path}')"

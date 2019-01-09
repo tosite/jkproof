@@ -5,7 +5,7 @@ RSpec.describe Jkproof do
     expect(Jkproof::VERSION).not_to be nil
   end
 
-  describe "YML形式" do
+  describe 'YML形式' do
     it 'yml側の辞書に合致する場合' do
       expect = [
         { type: 'yml', wrong: 'お問合せ', correct: 'お問い合わせ' }
@@ -72,20 +72,20 @@ RSpec.describe Jkproof do
     end
   end
 
-  describe "JSON形式" do
+  describe 'JSON形式' do
     let(:json_path) { './spec/dictionaries/dictionary.json' }
     let(:buf)       { "WrongJsonWord1\ncorrect-json-word-1" }
 
-    before {
+    before do
       File.open(json_path) do |file|
         json    = JSON.load(file)
         @actual = Jkproof.detect_words_has_error(buf, json)
       end
-    }
+    end
 
-    it "正しい形式のJSONデータが送られてきた場合" do
+    it '正しい形式のJSONデータが送られてきた場合' do
       expect = [
-        { type: 'json', wrong: "WrongJsonWord1", correct: "correct-json-word-1" }
+        { type: 'json', wrong: 'WrongJsonWord1', correct: 'correct-json-word-1' }
       ]
       expect(@actual).to eq expect
     end
