@@ -1,5 +1,10 @@
 # ChangeLog
 
+## v1.2.0
+- JSON形式に対応した
+  - `Jkproof.detect_words_has_error(sentence, json_dictionary)` のように第二引数にJSONデータを渡すことで対応可能
+- `type` の `local` を `yml` と `json` に細分化した
+
 ## v1.1.3
 - 表記揺らぎのある用語が複数個あった場合にすべて表示されないバグの修正
   - 例：`"問合せ／問い合わせ／問い合せ" => [{wrong: "問い合わせ" correct: "お問い合わせ"}]`
