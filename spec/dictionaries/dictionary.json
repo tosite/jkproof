@@ -1,0 +1,16 @@
+[
+  {
+    "correct" : "correct-json-word-1",
+    "wrongs" : [
+      "wrong_json_word_1",
+      "WrongJsonWord1"
+    ]
+  },
+  {
+    "correct" : "correct-json-word-2",
+    "wrongs" : [
+      "WrongJson2",
+      "Wrong2"
+    ]
+  }
+]

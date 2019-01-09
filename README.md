@@ -61,6 +61,27 @@ wrongs  :
 # 悪い例では文章に "WrongWord1" が与えられた場合、 "Word1" を返してしまう
 ```
 
+### JSONデータを用意する場合
+
+```json
+[
+  {
+    "correct" : "correct-json-word-1",
+    "wrongs" : [
+      "wrong_json_word_1",
+      "WrongJsonWord1"
+    ]
+  },
+  {
+    "correct" : "correct-json-word-2",
+    "wrongs" : [
+      "WrongJson2",
+      "Wrong2"
+    ]
+  }
+]
+```
+
 ### Yahoo APIキーを生成する
 https://e.developer.yahoo.co.jp/dashboard/ からAPIキーを生成してください。
 
@@ -92,11 +113,15 @@ NO_FILTER=""
 ```ruby
 # 検出された場合
 Jkproof.detect_words_has_error("検知したい文章")
-# => [{ type: "local", wrong: WrongWord, correct:CorrectWord }]
+# => [{ type: "yml", wrong: WrongWord, correct:CorrectWord }]
 
 # 検出されなかった場合
 Jkproof.detect_words_has_error("")
 # => []
+
+# JSONを渡す場合
+Jkproof.detect_words_has_error("検知したい文章", json_dictionary)
+# => [{ type: "json", wrong: WrongWord, correct:CorrectWord }]
 ```
 
 ## Development
