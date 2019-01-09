@@ -9,9 +9,15 @@ Gem::Specification.new do |spec|
   spec.version       = Jkproof::VERSION
   spec.authors       = ['tosite']
   spec.email         = ['tl091264@gmail.com']
-  spec.summary       = 'This performs sentence proofreading using a dictionary.yml.'
-  spec.description   = 'This performs sentence proofreading using a dictionary.yml.'
+  spec.summary       = 'This performs sentence proofreading using a dictionary.yml or JSON.'
+  spec.description   = <<-EOF
+  This performs sentence proofreading using a dictionary.yml.
+  Alternatively, by passing dictionary data in JSON format, we return an error word as an array.
+  ex1.use yml)  Jkproof.detect_words_has_error(sentence)
+  ex2.use JSON) Jkproof.detect_words_has_error(sentence, json)
+  EOF
   spec.homepage      = 'https://github.com/tosite0345/jkproof'
+  spec.license       = "MIT"
 
   # spec.summary       = %q{TODO: Write a short summary, because RubyGems requires one.}
   # spec.description   = %q{TODO: Write a longer description or delete this line.}
@@ -42,8 +48,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '~> 1.17'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
-  spec.add_dependency 'activesupport'
-  spec.add_dependency 'dotenv'
-  spec.add_dependency 'highline'
-  spec.add_dependency 'xml-simple'
+  spec.add_dependency 'activesupport', '~> 5.2'
+  spec.add_dependency 'dotenv', '~> 2.6'
+  spec.add_dependency 'xml-simple', '~> 1.1'
 end
