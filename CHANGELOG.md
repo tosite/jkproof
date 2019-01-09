@@ -1,6 +1,6 @@
 # ChangeLog
 
-## v1.2.1
+## v1.2.2
 - JSON形式に対応した
   - `Jkproof.detect_words_has_error(sentence, json_dictionary)` のように第二引数にJSONデータを渡すことで対応可能
 - `type` の `local` を `yml` と `json` に細分化した
