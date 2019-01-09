@@ -9,17 +9,13 @@ module Jkproof
     require 'active_support'
     require 'active_support/core_ext'
 
-    def initialize(buf)
+    def initialize(buf, json_dictionary)
       Dotenv.load
-      yml_path       = ENV['DICTIONARY_YML_PATH']
       @yahoo_api_key = ENV['YAHOO_API_KEY']
       @no_filter     = ENV['NO_FILTER'].blank? ? '' : ENV['NO_FILTER']
 
-      begin
-        @dictionary_words = yml_path.blank? ? [] : YAML.load_file(yml_path)
-      rescue StandardError => e
-        raise "#{e}(file_path: '#{yml_path}')"
-      end
+      set_dictionary(json_dictionary)
+
       @yahoo_words = []
       @buf         = buf
       fetch_yahoo_lint_words
@@ -56,6 +52,22 @@ module Jkproof
     end
 
     private
+
+    def set_dictionary(json_dictionary)
+      # JSON形式で辞書データが送られてきた場合
+      unless json_dictionary.blank?
+        @dictionary_words = json_dictionary
+        return
+      end
+
+      # ローカルの辞書データを使う場合
+      yml_path = ENV['DICTIONARY_YML_PATH']
+      begin
+        @dictionary_words = yml_path.blank? ? [] : YAML.load_file(yml_path)
+      rescue StandardError => e
+        raise "#{e}(file_path: '#{yml_path}')"
+      end
+    end
 
     def fetch_yahoo_lint_words
       if @yahoo_api_key.blank? || @yahoo_api_key.size < 10
