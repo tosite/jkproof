@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Jkproof do
-  describe "ローカルの辞書データを使う場合" do
+  describe "YML形式" do
     it 'バージョンを持っている' do
       expect(Jkproof::VERSION).not_to be nil
     end
@@ -69,5 +69,25 @@ RSpec.describe Jkproof do
       actual = Jkproof.detect_words_has_error(buf)
       expect(actual).to eq expect
     end
+  end
+
+  describe "JSON形式" do
+    let(:json_path) { './spec/dictionaries/dictionary.json' }
+    let(:buf)       { "WrongJsonWord1\ncorrect-json-word-1" }
+
+    before {
+      File.open(json_path) do |file|
+        json    = JSON.load(file)
+        @actual = Jkproof.detect_words_has_error(buf, json)
+      end
+    }
+
+    it "正しい形式のJSONデータが送られてきた場合" do
+      expect = [
+        { wrong:"WrongJsonWord1", correct: "correct-json-word-1" }
+      ]
+      expect(@actual).to eq expect
+    end
+
   end
 end
